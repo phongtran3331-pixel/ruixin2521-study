@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿信2521学习交流站</title>
+    <meta name="description" content="睿信2521班级学习交流站：竞赛信息、班级文件、重要通知一站式查询">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">📚 睿信2521学习交流站</h1>
+            <p class="site-subtitle">简约 · 高效 · 共享</p>
+            <span class="site-badge">2026 — 2027 学年</span>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#competitions" class="nav-link active" data-section="competitions">🏆 竞赛信息</a></li>
+                <li><a href="#classfiles" class="nav-link" data-section="classfiles">📁 班级文件</a></li>
+                <li><a href="#discussion" class="nav-link disabled" data-section="discussion" title="涉及服务器和仓库，暂不开放">💬 学习讨论</a></li>
+                <li><a href="#notices" class="nav-link" data-section="notices">📢 重要通知</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- 竞赛信息板块 -->
+            <section id="competitions" class="content-section active">
+                <div class="section-header">
+                    <h2 class="section-title">🏆 竞赛信息</h2>
+                    <p class="section-desc">2026年9月 ~ 2027年1月 · 最新竞赛资讯与报名指南</p>
+                    <span class="count-chip" id="compCount"></span>
+                </div>
+
+                <div class="filter-panel" id="competitionFilter">
+                    <div class="filter-title">🔍 筛选竞赛</div>
+                    <div class="filter-groups">
+                        <div class="filter-group">
+                            <span class="filter-label">难易程度</span>
+                            <label class="filter-check"><input type="checkbox" value="低" data-filter="diff"> 低</label>
+                            <label class="filter-check"><input type="checkbox" value="中" data-filter="diff"> 中</label>
+                            <label class="filter-check"><input type="checkbox" value="高" data-filter="diff"> 高</label>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">重要性</span>
+                            <label class="filter-check"><input type="checkbox" value="低" data-filter="impo"> 低</label>
+                            <label class="filter-check"><input type="checkbox" value="中" data-filter="impo"> 中</label>
+                            <label class="filter-check"><input type="checkbox" value="高" data-filter="impo"> 高</label>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">等级</span>
+                            <label class="filter-check"><input type="checkbox" value="院级" data-filter="level"> 院级</label>
+                            <label class="filter-check"><input type="checkbox" value="校级" data-filter="level"> 校级</label>
+                            <label class="filter-check"><input type="checkbox" value="省部级" data-filter="level"> 省部级</label>
+                            <label class="filter-check"><input type="checkbox" value="国家级" data-filter="level"> 国家级</label>
+                            <label class="filter-check"><input type="checkbox" value="国际级" data-filter="level"> 国际级</label>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">性价比</span>
+                            <label class="filter-check"><input type="checkbox" value="低" data-filter="ratio"> 低</label>
+                            <label class="filter-check"><input type="checkbox" value="中" data-filter="ratio"> 中</label>
+                            <label class="filter-check"><input type="checkbox" value="高" data-filter="ratio"> 高</label>
+                        </div>
+                    </div>
+                    <button class="filter-clear" id="clearFilter">重置筛选</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table" id="competitionTable">
+                        <thead>
+                            <tr>
+                                <th>竞赛名称</th>
+                                <th>报名截止</th>
+                                <th>比赛时间</th>
+                                <th>种类</th>
+                                <th>难易</th>
+                                <th>重要</th>
+                                <th>等级</th>
+                                <th>性价比</th>
+                                <th>官网</th>
+                                <th>讨论</th>
+                            </tr>
+                        </thead>
+                        <tbody id="competitionBody"></tbody>
+                    </table>
+                </div>
+                <div class="empty-tip" id="competitionEmpty" style="display:none;">
+                    <p>暂无竞赛信息，请在 data/competitions.txt 中添加数据</p>
+                </div>
+                <div id="commentSections"></div>
+            </section>
+
+            <!-- 班级文件板块 -->
+            <section id="classfiles" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">📁 班级文件</h2>
+                    <p class="section-desc">课程资料 · 复习笔记 · 历年真题 · 课件汇总</p>
+                    <span class="count-chip" id="fileCount"></span>
+                </div>
+
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb" id="classfilesBreadcrumb">
+                    <span class="breadcrumb-item" data-path="">📁 根目录</span>
+                </div>
+
+                <!-- 返回上级按钮 -->
+                <button class="back-btn" id="backBtn" style="display:none;">
+                    ← 返回上级
+                </button>
+
+                <!-- 文件夹列表 -->
+                <div class="folder-grid" id="folderGrid"></div>
+
+                <!-- 文件列表 -->
+                <div class="file-list" id="fileList"></div>
+
+                <div class="empty-tip" id="classfilesEmpty" style="display:none;">
+                    <p>暂无文件，请将资料放入 class_files/ 文件夹中</p>
+                </div>
+            </section>
+
+            <!-- 学习讨论板块 -->
+            <section id="discussion" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">💬 学习讨论</h2>
+                </div>
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">🔧</div>
+                    <h3>功能开发中</h3>
+                    <p>该板块涉及服务器和仓库，暂不开放</p>
+                    <p class="coming-soon-sub">敬请期待后续更新...</p>
+                </div>
+            </section>
+
+            <!-- 重要通知板块 -->
+            <section id="notices" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">📢 重要通知</h2>
+                    <p class="section-desc">班级动态 · 教务信息 · 紧急提醒</p>
+                    <span class="count-chip" id="noticeCount"></span>
+                </div>
+                <div class="notice-list" id="noticeList"></div>
+                <div class="empty-tip" id="noticeEmpty" style="display:none;">
+                    <p>暂无通知，请在 notices/ 文件夹中添加通知</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 睿信2521 · 学习交流站 | GitHub Pages 静态托管 · 局域网双通道</p>
+            <p class="footer-hint">数据随仓库更新 · 即开即用 · 仅供班级内部学习交流</p>
+        </div>
+    </footer>
+
+    <!-- 返回顶部 -->
+    <button class="back-top" id="backTop" title="返回顶部" aria-label="返回顶部">↑</button>
+
+    <script src="js/app.js"></script>
+    <script>
+    /* ===== 统计徽标 & 返回顶部 ===== */
+    (function () {
+        function setCount(elId, n, unit) {
+            const el = document.getElementById(elId);
+            if (el) el.textContent = n > 0 ? '共 ' + n + ' ' + unit : '';
+        }
+        function visibleRows() {
+            return document.querySelectorAll('#competitionBody tr:not(.hidden)').length;
+        }
+        const mo = new MutationObserver(() => {
+            setCount('compCount', visibleRows(), '场竞赛');
+            const folders = document.querySelectorAll('#folderGrid .folder-card').length;
+            const files = document.querySelectorAll('#fileList .file-row').length;
+            setCount('fileCount', folders + files, '项');
+            setCount('noticeCount', document.querySelectorAll('#noticeList .notice-card').length, '条通知');
+        });
+        ['competitionBody', 'folderGrid', 'fileList', 'noticeList'].forEach(id => {
+            const node = document.getElementById(id);
+            if (node) mo.observe(node, { childList: true });
+        });
+        document.getElementById('clearFilter').addEventListener('click', () => {
+            setTimeout(() => setCount('compCount', visibleRows(), '场竞赛'), 0);
+        });
+        document.getElementById('competitionFilter').addEventListener('change', () => {
+            setCount('compCount', visibleRows(), '场竞赛');
+        });
+
+        const btn = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('show', window.scrollY > 400);
+        }, { passive: true });
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+    </script>
+</body>
+</html>
