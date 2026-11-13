@@ -2,6 +2,13 @@
  * 睿信2521学习交流站 - 主逻辑
  */
 
+/* 数据文件防缓存：每次加载都带时间戳，保证更新即时可见 */
+const _rawFetch = window.fetch.bind(window);
+window.fetch = (url, opts) =>
+    _rawFetch(typeof url === 'string' && url.startsWith('data/')
+        ? url + '?_=' + Date.now()
+        : url, opts);
+
 let _allCompetitions = [];
 let _classFilesData = [];
 let _currentPath = '';
